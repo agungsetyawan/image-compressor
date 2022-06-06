@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs/promises')
+const fileSystem = require('fs')
 
 const compressImage = require('../util/compressImage')
 const convertWebp = require('../util/convertWebp')
@@ -13,6 +14,9 @@ const imageCompressor = async (
 ) => {
   try {
     const files = await fs.readdir(inputPath)
+
+    !fileSystem.existsSync(outputPath) &&
+      fileSystem.mkdirSync(outputPath, { recursive: true })
 
     for (const file of files) {
       const ext = path.extname(file)
